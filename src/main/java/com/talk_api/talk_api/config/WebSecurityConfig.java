@@ -1,21 +1,27 @@
 package com.talk_api.talk_api.config;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpMethod;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
-public class WebSecurityConfig extends WebSecurityConfiguration {
+@Configuration
+@EnableWebSecurity
+public class WebSecurityConfig {
+
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .dispatcherTypeMatchers(HttpMethod.valueOf("/api/users/**")).permitAll()
+                .requestMatchers("/api/users/**").permitAll()
                 .anyRequest().authenticated();
+        return http.build();
     }
 }
