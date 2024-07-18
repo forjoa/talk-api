@@ -1,10 +1,10 @@
 package com.talk_api.talk_api.config;
 
 import com.corundumstudio.socketio.Configuration;
-import com.corundumstudio.socketio.SocketConfig;
 import com.corundumstudio.socketio.SocketIOServer;
 import org.springframework.context.annotation.Bean;
 
+@org.springframework.context.annotation.Configuration
 public class SocketIOConfig {
 
     @Bean
@@ -12,10 +12,6 @@ public class SocketIOConfig {
         Configuration config = new Configuration();
         config.setHostname("localhost");
         config.setPort(9092);
-
-        SocketConfig socketConfig = new SocketConfig();
-        socketConfig.setReuseAddress(true);
-        config.setSocketConfig(socketConfig);
 
         return new SocketIOServer(config);
     }
